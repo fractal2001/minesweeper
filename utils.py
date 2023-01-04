@@ -3,7 +3,7 @@ file, which records the user's highest score in each of the three difficulty
 modes "Easy", "Medium" and "Hard". 
 """
 
-"""Global Attributes:
+"""Global Variables:
 
 WORST_TIME: The worst time possible. Note that it is not actually possible
             for the player to get a time of 1000 since the timer only goes 
