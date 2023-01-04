@@ -22,10 +22,8 @@ class Watch(QLabel):
         text_size -- An integer; the size at which to display the text
         """
         super().__init__(parent)
-
         self.current_time = 0
         self.timeout = timeout
-
         # If self.timeout has N digits, the code below sets the format to {:0Nd}
         self.format = '{:0' + str(len(str(self.timeout))) + 'd}' 
         
@@ -39,15 +37,17 @@ class Watch(QLabel):
         self.setText(self.format.format(self.current_time))
     
     def _start_time(self):
-        """Starts time"""
+        """Starts time by starting the QTimer"""
         self.timer.start()
     
     def _stop_time(self):
-        """Stops time"""
+        """Stops time by freezing the display"""
         self.timer.stop()
     
     def _reset_time(self):
         """Resets the watch, updates the displayed text and stops time."""
+        # Necessary to set self.current_time to -1, since 1 is added to 
+        # self.current_time before updating display in self._update_time()
         self.current_time = -1
         self._update_time()
         self.timer.stop()
@@ -84,17 +84,15 @@ class StopWatch(QWidget):
         icon_size -- An integer; the size at which to display ICON
         """
         super().__init__()
+        self.watch = Watch(timeout, text_size)
 
-        hourglass_icon = QLabel()
-        hourglass_icon.setPixmap(QPixmap(icon).scaled(icon_size, icon_size))
+        icon_widget = QLabel()
+        icon_widget.setPixmap(QPixmap(icon).scaled(icon_size, icon_size))
 
         layout = QHBoxLayout()
-        layout.addWidget(hourglass_icon)
-        
-        self.watch = Watch(timeout, text_size)
+        layout.addWidget(icon_widget)
         layout.addWidget(self.watch)
         layout.setSpacing(0)
-
         self.setLayout(layout)
     
     def start(self):
