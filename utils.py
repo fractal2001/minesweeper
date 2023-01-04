@@ -3,6 +3,14 @@ file, which records the user's highest score in each of the three difficulty
 modes "Easy", "Medium" and "Hard". 
 """
 
+"""Global Attributes:
+
+WORST_TIME: The worst time possible. Note that it is not actually possible
+            for the player to get a time of 1000 since the timer only goes 
+            up to 999. See "dialog.py" for more explanation
+DIFFICULTIES: The three possible difficulties of the game
+"""
+
 WORST_TIME = 1000
 DIFFICULTIES = ["Easy", "Medium", "Hard"]
 
@@ -49,7 +57,8 @@ def write_high_scores(scores, file):
     
 def reset_high_scores(file):
     """Sets the best score in each category equal to WORST_TIME, and writes
-    to FILE
+    to FILE. Note this function is unused by main. It exists only to reset
+    the high scores file. 
 
     Args:
         file -- A string; the filepath to the file to be written to
