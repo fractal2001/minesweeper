@@ -7,6 +7,8 @@ from tiles import *
 
 UNEXPOSED_DARK = QColor("#D78521")
 UNEXPOSED_LIGHT = QColor("#F2D398")
+UNEXPOSED_HIGHLIGHT = QColor("#E6B062")
+
 EXPOSED_LIGHT = QColor("#E8EBF7")
 EXPOSED_DARK = QColor("#D5DBF0")
 
@@ -65,14 +67,14 @@ class Canvas(QGraphicsScene):
             for j in range(self.height):
                 if (i + j) % 2 == 0:
                     if indicator[index] == 0:
-                        tile = SafeTile(UNEXPOSED_DARK, EXPOSED_DARK, self.tile_size)
+                        tile = SafeTile(UNEXPOSED_DARK, UNEXPOSED_HIGHLIGHT, EXPOSED_DARK, self.tile_size)
                     else:
-                        tile = BombTile(UNEXPOSED_DARK, self.tile_size)
+                        tile = BombTile(UNEXPOSED_DARK, UNEXPOSED_HIGHLIGHT, self.tile_size)
                 else:
                     if indicator[index] == 0:
-                        tile = SafeTile(UNEXPOSED_LIGHT, EXPOSED_LIGHT, self.tile_size)
+                        tile = SafeTile(UNEXPOSED_LIGHT, UNEXPOSED_HIGHLIGHT, EXPOSED_LIGHT, self.tile_size)
                     else:
-                        tile = BombTile(UNEXPOSED_LIGHT, self.tile_size)
+                        tile = BombTile(UNEXPOSED_LIGHT, UNEXPOSED_HIGHLIGHT, self.tile_size)
                 tile.setPos(i * self.tile_size, j * self.tile_size)
                 self.addItem(tile)
                 self.grid[j][i] = tile

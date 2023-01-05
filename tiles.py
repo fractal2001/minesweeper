@@ -3,8 +3,6 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtGui import QBrush, QColor, QPainter, QPen, QPixmap
 from PyQt6.QtCore import *
 
-UNEXPOSED_HIGHLIGHT = QColor("#E6B062")
-
 BOMB_COLORS = [
     QColor("#4D9DE0"),
     QColor("#E1BC29"),
@@ -12,7 +10,6 @@ BOMB_COLORS = [
     QColor("#7768AE"),
     QColor("#E15554"),
 ]
-
 NUMBER_COLORS = [
     Qt.GlobalColor.blue,
     Qt.GlobalColor.green,
@@ -24,7 +21,6 @@ NUMBER_COLORS = [
     Qt.GlobalColor.cyan,
 ]
 FLAG_FILE_PATH = "images/flag.png"
-
 ERROR = Qt.GlobalColor.red
 
 class Tile(QGraphicsItem):
@@ -92,8 +88,8 @@ class Tile(QGraphicsItem):
             return 
 
 class BombTile(Tile):
-    def __init__(self, color, size):
-        super().__init__(color, UNEXPOSED_HIGHLIGHT, size, True)
+    def __init__(self, normal_color, highlight_color, size):
+        super().__init__(normal_color, highlight_color, size, True)
         self.bomb_color = random.choice(BOMB_COLORS)
     
     def mousePressEvent(self, event):
@@ -112,8 +108,8 @@ class BombTile(Tile):
             painter.drawEllipse(QPoint(self.size // 2, self.size // 2), self.size // 3, self.size // 3)
 
 class SafeTile(Tile):
-    def __init__(self, color, exposed_color, size):
-        super().__init__(color, UNEXPOSED_HIGHLIGHT, size)
+    def __init__(self, normal_color, highlight_color, exposed_color, size):
+        super().__init__(normal_color, highlight_color, size)
         self.num_bombs = 0 # number of neighboring bombs
         self.exposed_color = exposed_color
         self.draw_x = False

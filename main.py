@@ -62,27 +62,27 @@ class MainWindow(QMainWindow):
         flag_widget = QWidget()
         flag_widget.setLayout(flag_layout)
 
-        difficulty_box = QComboBox()
+        self.difficulty_box = QComboBox()
         font.setPointSize(TEXT_SIZE - 2)
-        difficulty_box.setFont(font)
-        difficulty_box.setMaximumWidth(120)
-        difficulty_box.addItems(MODES.keys())
-        difficulty_box.setCurrentIndex(list(MODES.keys()).index(mode))
-        difficulty_box.currentTextChanged.connect(self.difficulty_setter)
+        self.difficulty_box.setFont(font)
+        self.difficulty_box.setMaximumWidth(120)
+        self.difficulty_box.addItems(MODES.keys())
+        self.difficulty_box.setCurrentIndex(list(MODES.keys()).index(mode))
+        self.difficulty_box.currentTextChanged.connect(self.difficulty_setter)
 
         button_layout = QGridLayout()
         button_layout.setSpacing(0)
-        button_layout.addWidget(difficulty_box, 0, 4, Qt.AlignmentFlag.AlignRight)
+        button_layout.addWidget(self.difficulty_box, 0, 4, Qt.AlignmentFlag.AlignRight)
         button_layout.addWidget(self.watch, 0, 5, Qt.AlignmentFlag.AlignCenter)
         button_layout.addWidget(flag_widget, 0, 6, Qt.AlignmentFlag.AlignLeft)
 
-        self.full_layout = QVBoxLayout()
-        self.full_layout.addLayout(button_layout)
-        self.full_layout.addWidget(self.view)
+        full_layout = QVBoxLayout()
+        full_layout.addLayout(button_layout)
+        full_layout.addWidget(self.view)
 
-        self.widget = QWidget()
-        self.widget.setLayout(self.full_layout)
-        self.setCentralWidget(self.widget)
+        interface = QWidget()
+        interface.setLayout(full_layout)
+        self.setCentralWidget(interface)
     
     def flag_count_update(self):
         self.flag_count.setText(str(Tile.num_flagged_cells) + "/" + str(self.total_bombs))
@@ -107,6 +107,7 @@ class MainWindow(QMainWindow):
             self.timer_active = True
         if self.scene.game_finished() and not self.dialog_displayed:
             self.watch.stop()
+            self.difficulty_box.setEnabled(False)
             if self.scene.game_is_won():
                 self.dialog = self._customize_win_dialog()
                 self._save_best_time()
@@ -118,6 +119,7 @@ class MainWindow(QMainWindow):
         super().mousePressEvent(event)
     
     def reset_game(self):
+        self.difficulty_box.setEnabled(True)
         self.difficulty_setter(self.mode)
     
     def difficulty_setter(self, new_mode):
