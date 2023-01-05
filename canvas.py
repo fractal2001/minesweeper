@@ -39,7 +39,7 @@ class Canvas(QGraphicsScene):
         return self.game_won
 
     def _compute_count_at(self, x, y):
-        assert isinstance(self.grid[y][x], SafeTile), "Current tile is not safe" 
+        assert self.grid[y][x].is_safe(), "Current tile is not safe" 
 
         dy = [0, 0, 1, 1, 1, -1, -1, -1]
         dx = [-1, 1, -1, 0, 1, -1, 0, 1]
@@ -48,14 +48,14 @@ class Canvas(QGraphicsScene):
             y_new = y + dy[i] 
             x_new = x + dx[i]
             if 0 <= x_new and 0 <= y_new and x_new < self.width and y_new < self.height \
-                and isinstance(self.grid[y_new][x_new], BombTile):
+                and not self.grid[y_new][x_new].is_safe():
                 count += 1
         self.grid[y][x].set_num_bombs(count)
 
     def compute_counts(self):
         for i in range(self.width):
             for j in range(self.height):
-                if isinstance(self.grid[j][i], SafeTile):
+                if self.grid[j][i].is_safe():
                     self._compute_count_at(i, j)
 
     def randomize(self):
@@ -81,7 +81,7 @@ class Canvas(QGraphicsScene):
                 index += 1
     
     def floodfill(self, x, y):
-        assert isinstance(self.grid[y][x], SafeTile) and self.grid[y][x].get_num_bombs() == 0
+        assert self.grid[y][x].is_safe() and self.grid[y][x].get_num_bombs() == 0
         fringe = deque()
         fringe.append((x, y))
         visited = set()
@@ -98,39 +98,23 @@ class Canvas(QGraphicsScene):
                     y_new = ytop + dy[i] 
                     x_new = xtop + dx[i]
                     if 0 <= x_new and 0 <= y_new and x_new < self.width and y_new < self.height \
-                        and isinstance(self.grid[y_new][x_new], SafeTile):
+                        and self.grid[y_new][x_new].is_safe():
                         fringe.append((x_new, y_new))
-    
-    # def explode_all_bombs(self):
-    #     for i in range(self.width):
-    #         for j in range(self.height):
-    #             if isinstance(self.grid[j][i], BombTile) and not self.grid[j][i].flagged():
-    #                 self.grid[j][i].force_expose()
-    
+        
     def _get_unmarked_bombs(self):
         for i in range(self.width):
             for j in range(self.height):
-                if isinstance(self.grid[j][i], BombTile) and not self.grid[j][i].flagged():
+                if not self.grid[j][i].is_safe() and not self.grid[j][i].flagged():
                     self.bombs.append(self.grid[j][i])
         random.shuffle(self.bombs)
     
     def _get_incorrectly_marked_safe(self):
         for i in range(self.width):
             for j in range(self.height):
-                if isinstance(self.grid[j][i], SafeTile) and self.grid[j][i].flagged():
+                if self.grid[j][i].is_safe() and self.grid[j][i].flagged():
                     self.safes.append(self.grid[j][i])
         random.shuffle(self.safes)
     
-    # def _explode_all_bombs(self):
-    #     if len(self.bombs) != 0:
-    #         self.bombs.pop().force_expose()
-    #         QTimer.singleShot(random.choice([200, 300, 400]), lambda: self._explode_all_bombs())
-    
-    # def _show_wrong_markings(self):
-    #     if len(self.safes) != 0:
-    #         self.safes.pop().draw_X()
-    #         QTimer.singleShot(random.choice([100, 150, 200]), lambda: self._show_wrong_markings())
-
     def _end_game_sequence(self):
         if len(self.bombs) != 0:
             self.bombs.pop().force_expose()
@@ -138,13 +122,7 @@ class Canvas(QGraphicsScene):
         elif len(self.safes) != 0:
             self.safes.pop().draw_X()
             QTimer.singleShot(random.choice([50, 100, 150]), self._end_game_sequence)
-                    
-    # def show_wrong_markings(self):
-    #     for i in range(self.width):
-    #         for j in range(self.height):
-    #             if isinstance(self.grid[j][i], SafeTile) and self.grid[j][i].flagged():
-    #                 self.grid[j][i].draw_X()
-    
+                        
     def _disable_mouse_events(self):
         for i in range(self.width):
             for j in range(self.height):
@@ -155,7 +133,7 @@ class Canvas(QGraphicsScene):
     def check_win_condition(self):
         for i in range(self.width):
             for j in range(self.height):
-                if isinstance(self.grid[j][i], SafeTile) and not self.grid[j][i].is_exposed():
+                if self.grid[j][i].is_safe() and not self.grid[j][i].is_exposed():
                     return 
         self.game_over = True
         self.game_won = True
@@ -170,7 +148,7 @@ class Canvas(QGraphicsScene):
             y = int(point.y() // self.tile_size)
             self.grid[y][x].mousePressEvent(event)
 
-            if isinstance(self.grid[y][x], BombTile) and not self.grid[y][x].flagged():
+            if not self.grid[y][x].is_safe() and not self.grid[y][x].flagged():
                 self._disable_mouse_events()
 
                 self._get_unmarked_bombs()
@@ -180,7 +158,7 @@ class Canvas(QGraphicsScene):
 
                 self.game_over = True
                 return 
-            elif isinstance(self.grid[y][x], SafeTile) and self.grid[y][x].get_num_bombs() == 0 \
+            elif self.grid[y][x].is_safe() and self.grid[y][x].get_num_bombs() == 0 \
                  and not self.grid[y][x].flagged():
                 self.floodfill(x, y)
         elif event.button() == Qt.MouseButton.RightButton:

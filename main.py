@@ -11,17 +11,12 @@ MODES = {
     'Medium' : (18, 14, 46, 40),
     'Easy' : (10, 8, 50, 10), 
 }
-
 ICON_SIZE = 30
 TEXT_SIZE = 15
 SCORES_FILE_PATH = "cache/high_scores.txt"
-
-HOURGLASS_FILE_PATH = "images/hourglass.png"
 FLAG_FILE_PATH = "images/flag.png"
-
 TIME_FILE_PATH = "images/hourglass.png"
 TROPHY_FILE_PATH = "images/trophy.png"
-
 HIGH_SCORES = read_high_scores(SCORES_FILE_PATH)
 
 class MainWindow(QMainWindow):
@@ -42,7 +37,7 @@ class MainWindow(QMainWindow):
         # Vectorizes graphics
         self.view.setRenderHint(QPainter.RenderHint.Antialiasing)
 
-        self.watch = StopWatch(999, HOURGLASS_FILE_PATH, ICON_SIZE, TEXT_SIZE)
+        self.watch = StopWatch(999, TIME_FILE_PATH, ICON_SIZE, TEXT_SIZE)
         self.timer_active = False 
 
         flag_icon = QLabel()

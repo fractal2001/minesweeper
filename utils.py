@@ -6,8 +6,9 @@ modes "Easy", "Medium" and "Hard".
 """Global Variables:
 
 WORST_TIME: The worst time possible. Note that it is not actually possible
-            for the player to get a time of 1000 since the timer only goes 
-            up to 999. See "dialog.py" for more explanation
+for the player to get a time of 1000 since the timer only goes up to 999. 
+See "dialog.py" for more explanation
+
 DIFFICULTIES: The three possible difficulties of the game
 """
 

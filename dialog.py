@@ -4,11 +4,12 @@ from PyQt6.QtWidgets import QDialog, QLabel, QVBoxLayout, QHBoxLayout, QWidget, 
 """Global Variables:
 
 WORST_TIME: In "main.py", the worst time achievable by the player is 999.
-            However, before the player has set a high score, their time is saved in 
-            cache/high_scores.txt as WORST_TIME for each difficulty mode. When displaying
-            the dialog, if the user's best time is WORST_TIME, then instead of displaying 
-            the time, three dashes are displayed instead (this is equivalent to saying
-            that their best score is N/A).  
+However, before the player has set a high score, their time is saved in 
+cache/high_scores.txt as WORST_TIME for each difficulty mode. When displaying
+the dialog, if the user's best time is WORST_TIME, then instead of displaying 
+the time, three dashes are displayed instead (this is equivalent to saying
+that their best score is N/A).  
+
 RETRY_STRING: A unicode string encoding the "refresh" symbol
 """
 
@@ -143,4 +144,3 @@ class LoseDialog(WinDialog):
         button = QPushButton()
         button.setText(RETRY_STRING + " Try again")
         return button
-

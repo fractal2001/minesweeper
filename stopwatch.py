@@ -7,10 +7,10 @@ class Watch(QLabel):
     The text displayed is updated every second to display the current time.
 
     Attributes:
-    current_time -- the current time to display
-    timeout -- the time up to which the stopwatch goes
-    timer -- a QTimer object used to update self.current_time each second
-    format -- the format to use when displaying the time
+        current_time -- the current time to display
+        timeout -- the time up to which the stopwatch goes
+        timer -- a QTimer object used to update self.current_time each second
+        format -- the format to use when displaying the time
     """
     def __init__(self, timeout, text_size, parent = None):
         """Create a Watch that stops at TIMEOUT and displays the time using font size equal to 
@@ -72,7 +72,7 @@ class StopWatch(QWidget):
     next to a graphical icon.
 
     Attributes:
-    watch -- A watch object to display
+        watch -- A watch object to display
     """
     def __init__(self, timeout, icon, icon_size = 30, text_size = 15):
         """Create a StopWatch that stops at TIMEOUT and displays the time using font size equal to 
