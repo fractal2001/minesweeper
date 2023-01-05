@@ -120,7 +120,7 @@ class Canvas(QGraphicsScene):
             self.bombs.pop().force_expose()
             QTimer.singleShot(random.choice([200, 300, 400]), self._end_game_sequence)
         elif len(self.safes) != 0:
-            self.safes.pop().draw_X()
+            self.safes.pop().crossout()
             QTimer.singleShot(random.choice([50, 100, 150]), self._end_game_sequence)
                         
     def _disable_mouse_events(self):

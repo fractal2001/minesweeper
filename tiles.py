@@ -239,7 +239,7 @@ class SafeTile(Tile):
     Attributes:
     num_bombs -- the number of bombs surrounding this tile in the game
     exposed_color -- the color to use for the background when exposing the tile
-    draw_x -- a boolean that tells the paint function when to draw an X across the tile.
+    draw_x -- a boolean that tells the paint function when to cross out the tile.
     To be used at the end of the game, where incorrectly flagged cells are crossed out. 
     """
     def __init__(self, normal_color, highlight_color, exposed_color, size):
@@ -275,7 +275,7 @@ class SafeTile(Tile):
         """
         self.num_bombs = num_bombs
         
-    def draw_X(self):
+    def crossout(self):
         """Sets self.draw_x to True and calls a repaint so that this cell will be crossed out."""
         self.draw_x = True
         self.is_flagged = False
