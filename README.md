@@ -5,4 +5,5 @@ python3 main.py
 ```
 from the cloned directory. Images of the completed application are shown below: 
 ![minesweeper](preview.png)
+
 Upon exploding a mine, all other mines will begin to explode in random order. Image of a lost game shown below: 
