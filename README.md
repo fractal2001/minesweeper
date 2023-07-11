@@ -6,4 +6,7 @@ python3 main.py
 from the cloned directory. Images of the completed application are shown below: 
 ![minesweeper](preview1.png)
 
-Upon exploding a mine, all other mines will begin to explode in random order. Image of a lost game shown below: 
+Upon exploding a mine, all other mines will begin to explode in random order, and tiles that are not bombs but incorrectly marked with a flag will be replaced by an X. Image of a lost game shown below: 
+![minesweeper](preview2.png)
+
+
